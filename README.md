@@ -123,6 +123,39 @@ python run.py --config config.yaml
 
   If answers are too short, increase `n_predict`. If long pasted prompts are being trimmed too aggressively, increase `ctx_size` and `max_prompt_chars` in line with your model/server capacity.
 
+<<<<<<< HEAD
+=======
+* **Tokenizer budgeting**
+
+  ```yaml
+  tokenizer_mode: "heuristic"
+  tokenizer_path:
+  ```
+
+  The default `heuristic` mode requires no extra packages and is conservative for Korean, Japanese, code, JSON, and long no-space text. To use a Hugging Face tokenizer, install `transformers`, set `tokenizer_mode: "huggingface"`, and set `tokenizer_path` to a local tokenizer directory or model id. If tokenizer loading fails, the app falls back to the heuristic counter.
+
+* **Attachments and images**
+
+  Supported file types:
+
+  ```text
+  .txt .md .json .yaml .yml .csv .py .log .pdf .docx .png .jpg .jpeg .bmp .webp
+  ```
+
+  PDF extraction uses `pypdf`; DOCX extraction uses `python-docx`. Images use `Pillow` for metadata and a local heuristic caption. OCR is attempted with `pytesseract` plus the native Tesseract OCR engine; if the Python wrapper is unavailable, the app can also use the native `tesseract` CLI directly when it is on `PATH`. If Tesseract is installed outside `PATH`, set `TESSERACT_CMD` to the full executable path before launching the GUI. Unsupported or unreadable files show a GUI warning and do not crash the app.
+
+  Plain text files are read as UTF-8 first, with fallback decoding for common local encodings.
+
+  Image modes in the GUI:
+
+  ```text
+  Auto
+  OCR Only
+  Caption Only
+  OCR + CV Analysis
+  ```
+
+>>>>>>> c093df4 (improve OCR fallback diagnostics)
 Create and modify local settings in:
 
 ```bash
